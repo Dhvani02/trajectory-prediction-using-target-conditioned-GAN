@@ -1,0 +1,193 @@
+
+general:
+  save_dir: logs
+  project_name: GoalGAN
+
+
+hydra:
+  run:
+    dir: /kaggle/working/logs
+        
+dropout: 0.0
+batch_norm: False
+input_dim: 2
+
+
+# Generator dim
+encoder_h_dim_g: 16
+decoder_h_dim_g: 16
+
+mlp_dim: 32
+embedding_dim: 8
+
+
+# parameters global goal / attention
+temperature_global: 1
+grid_size_in_global: 12
+grid_size_out_global: 12
+num_layers_cnn_global: 3
+batch_norm_cnn_global: True
+dropout_cnn_global: 0.3
+non_lin_cnn_global: "relu"
+
+force_hard_global: False
+noise_attention_dim_global: 8
+final_embedding_dim_global: 4
+skip_connection_global: True
+channels_cnn_global: 8
+global_vis_type: "goal"
+
+# parameters routing module
+rm_vis_type : "attention"
+num_layers_cnn_rm: 3
+batch_norm_cnn_rm : True
+dropout_cnn_rm : 0.0
+non_lin_cnn_rm : "relu"
+grid_size_local : 8
+
+force_hard_rm : True
+noise_attention_dim_rm : 8
+final_embedding_dim_rm : 4
+skip_connection_rm  : False
+channels_cnn_rm  : 4
+  
+
+# general args
+gan_mode : "lsgan"
+
+
+# discriminator params
+encoder_h_dim_d : 16
+
+dropout_disc : 0.3
+dropout_cnn_disc : 0.3
+
+non_lin_cnn_disc : "relu"
+channels_cnn_disc : 4
+num_layers_cnn_disc : 3
+batch_norm_disc : True
+visual_features_disc : True
+    
+# @package _global_
+num_workers : 8
+make_checkpoint: True
+data_augmentation: 0
+max_num: False
+skip: 20
+# trainer
+trainer:
+  max_epochs : 400
+  gpus : [1]
+  fast_dev_run: False
+
+
+batch_size: 32
+batch_size_scheduler: 10
+
+pretraining:
+  batch_size: 32
+  batch_size_scheduler: 10
+
+
+
+lr_scheduler_G : ReduceLROnPlateau
+lr_scheduler_D : ReduceLROnPlateau
+lr_scheduler_pretrain : ReduceLROnPlateau
+
+# training
+best_k : 10
+best_k_val : 10
+absolute : True
+
+# loss weights
+w_ADV : 1
+w_L2 : 5
+w_G : 0.5
+w_GCE : 1
+
+# learning rates
+lr_gen : 0.0001
+lr_dis : 0.0001
+lr_pretrain: 0.001
+
+# generator/ discriminator train steps
+g_steps : 1
+d_steps : 1
+
+
+
+
+
+
+# @package _global_
+dataset_name : 'lyft'
+obs_len : 11
+pred_len : 50
+random_seed : 1
+scaling_global: 1.
+scaling_local : 0.20
+img_scaling : 0.20
+grid_size_in_global: 12
+grid_size_out_global: 12
+grid_size_local : 8
+load_semantic_map: False
+pretrain : 4
+
+# --- Lyft configs ---
+format_version: 4,
+data_path: "/kaggle/input/lyft-motion-prediction-autonomous-vehicles"
+
+raster_params: 
+  raster_size: [224, 224]
+  pixel_size: [0.5, 0.5]
+  ego_center: [0.25, 0.5]
+  map_type: 'py_semantic'
+  satellite_map_key: 'aerial_map/aerial_map.png'
+  semantic_map_key: 'semantic_map/semantic_map.pb'
+  dataset_meta_key: 'meta.json'
+  filter_agents_threshold: 0.5
+
+train_data_loader: 
+  key: 'scenes/train.zarr'
+  batch_size: 16
+  shuffle: True
+  num_workers: 4
+
+test_data_loader: 
+  key: 'scenes/test.zarr'
+  batch_size: 16
+  shuffle: True
+  num_workers: 4
+
+val_data_loader: 
+  key: 'scenes/val.zarr'
+  batch_size: 16
+  shuffle: True
+  num_workers: 4
+  
+
+train_params:
+  max_num_steps: 101
+  checkpoint_every_n_steps: 20
+
+mode_dist_threshold: 2
+best_k_test : 20
+
+model_params: 
+  model_architecture: resnet34
+  history_num_frames: 10
+  history_step_size: 1
+  history_delta_time: 0.1
+  future_num_frames: 50
+  future_step_size: 1
+  future_delta_time: 0.1
+  model_name: "model_resnet34_output"
+  lr: 0.0001
+  weight_path: "/kaggle/input/lyft-pretrained-model-hv/model_multi_update_lyft_public.pth"
+  train: True
+  predict: False
+
+  
+
+
+  

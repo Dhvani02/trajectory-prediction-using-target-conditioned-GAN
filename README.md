@@ -17,43 +17,21 @@ Remember to activate environment to install libraries
 pynev shell your_virtual_env
 ```
 
-### Notebook setup
-Leverage the following code snippet to use the src directory in notebooks
-```python
-import sys
-# This should navigate to the repository root
-sys.path.append('../')
-%reload_ext autoreload
-%autoreload 2
-```
 
 ## Project Structure
-Most idea pulled from [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/#directory-structure)
 
-### app.py
-Main command line interface to run each step of the ML pipeline
- - Create dataset compatible to the code by running
-   ```python 
-   python app.py 
-   ```
-   This will create data in a csv file containing the trajectory information with the form <frame_id> <person_id> <x_cood> <y_cood>.
-  
 ### data
-The code is compatible with Lyft Level 5 motion prediction dataset.
+The code is compatible with Lyft Level 5 motion prediction dataset. This folder contains the pre-processing required to load this data.
 
-### notebook
-Should contains experiments with GAN, ResNet, Clustering (ensemble)
+### notebooks
+Contains notebooks which run our target based GAN and baseline ResNet models
 
-### metrics
-Any output of metrics (eg. average displacement error, .etc) should be saved under here as a csv
-### src
-All code. Here's the breakdown per folder within src.
+### models
+Different modules required in the model are stored here
+
 #### conf
-Config file (can include model configurations, or train test data configurations, etc.)
-#### data
-All code related to data preprocessing to create a trainable data 
-#### train
-All code related to modeling and traning
+Config file (includes model configurations, train test data configurations, etc.)
+
 
 ## Pipeline
 ### Target location prediction
