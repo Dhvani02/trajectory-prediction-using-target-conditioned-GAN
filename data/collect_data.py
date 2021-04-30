@@ -22,24 +22,11 @@ import matplotlib.pyplot as plt
 import copy
 import math
 import logging
-# import data.experiments
-# from utils.utils import re_im, image_json
 import torchvision.transforms.functional as TF
 from torchvision import transforms
 import random
 
-# Input data files are available in the read-only "../input/" directory
-# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
-
 logger = logging.getLogger(__name__)
-# helper functions
-def rotate(X, center, alpha):
-    XX = torch.zeros_like(X)
-
-    XX[:, 0] = (X[:, 0] - center[0]) * np.cos(alpha) + (X[:, 1] - center[1]) * np.sin(alpha) + center[0]
-    XX[:, 1] = - (X[:, 0] - center[0]) * np.sin(alpha) + (X[:, 1] - center[1]) * np.cos(alpha) + center[1]
-
-    return XX
 
 def split(a, n):
     k, m = divmod(len(a), n)
@@ -87,7 +74,6 @@ class TrajectoryDataset(Dataset):
             self.seq_start_end = [(i, i+1) for i in range(self.train_iters)]
         else:
             self.seq_start_end = [(i, i+1) for i in range(self.test_iters)]
-#         print(len(self.seq_start_end))
 
         self.collect_data()
         
@@ -106,11 +92,6 @@ class TrajectoryDataset(Dataset):
 
         scene = self.scene_list[index]
         current_scene_image =  self.images[scene]
-
-#         if self.wall_available:
-#             walls = self.walls_list[index]
-#         else:
-#             walls = False
         
         walls = self.target_availabilities[start:end]
 
@@ -126,13 +107,6 @@ class TrajectoryDataset(Dataset):
         else:
 
             scene_img =  [self.image_list[index]]
-
-#             if self.wall_available:
-
-#                 walls = self.walls_list[index]
-
-#             else:
-#                 walls = False
 
 
 
@@ -157,8 +131,6 @@ class TrajectoryDataset(Dataset):
                 ]
 
     def get_stats(self):
-
-#         self.logger.info("Number of trajectories: {}".format(self.num_seq))
 
         max_dist_obs, _ = torch.abs(self.obs_traj - self.obs_traj[:, -1].unsqueeze(1)).view(-1, 2).max(0)
         max_dist_pred, _ = torch.abs(self.pred_traj - self.obs_traj[:, -1].unsqueeze(1)).view(-1, 2).max(0)
@@ -241,7 +213,7 @@ class TrajectoryDataset(Dataset):
             scale = 1
 
         img = scene_image[image_type]
-        center_meter = trajectory  # center in meter
+        center_meter = trajectory 
 
         end_dist_meters = prediction - center_meter
         end_point_pixel_global = scale * end_dist_meters
@@ -397,9 +369,6 @@ class TrajectoryDataset(Dataset):
         self.get_local_patches()
         if self.save:
             self.save_dset()
-#         self.get_stats()
-
-        # return obs_traj_list, pred_traj_list, obs_traj_rel, pred_traj_rel, self.image_list, self.global_patches, self.Prob_Mask, [], self.local_patches
     
 
 
@@ -441,6 +410,3 @@ def seq_collate(data):
             }
 
 
-
-# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
-# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session

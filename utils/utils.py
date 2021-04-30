@@ -1,5 +1,32 @@
 import pytorch_lightning as pl
 import numpy as np
+import torch
+import random
+from matplotlib.path import Path
+import numpy as np
+import torch.nn as nn
+import math
+import torch
+from torch.optim.optimizer import Optimizer, required
+import os
+import time
+import torch
+import numpy as np
+import inspect
+from contextlib import contextmanager
+import subprocess
+import torch.nn as nn
+import itertools
+import importlib
+from attrdict import AttrDict
+from argparse import Namespace
+import os.path
+from shapely.geometry import Point
+from shapely.geometry.polygon import Polygon
+import numpy as np
+import json
+import random
+import os
 
 
 class BatchSizeScheduler(pl.callbacks.base.Callback):
@@ -72,60 +99,6 @@ class BatchSizeScheduler(pl.callbacks.base.Callback):
                 self.current_count = self.patience*1
                 if self.cur_bs >=self.max_bs:
                     self.active = False
-
-# import torch
-# import pandas as pd
-# import os
-# import traceback
-
-# """Set location, experiment and metrics you want to collect"""
-# LOGDIR = "logs"
-# EXPERIMENT = "lyft"
-# COLUMNS = ["version"]
-# METRICS = [ "ade_test", "fde_test", "feasibility_test"]
-
-
-
-# def create_results_pd(EXPERIMENT = EXPERIMENT,
-# 					  COLUMNS = COLUMNS,
-# 					  METRICS = METRICS,
-# 					  LOGDIR = LOGDIR,
-# 					  make_csv = False):
-# 	"""
-# 	Reads results from 'results.pt' checkpoints and writes them into a csv in 'resultCSV'
-# 	"""
-# 	result_pd = pd.DataFrame(columns = COLUMNS+METRICS)
-
-# 	experiment_dir = os.path.join( LOGDIR, EXPERIMENT)
-# 	versions = os.listdir(experiment_dir)
-# 	for v in versions:
-# 		try:
-# 			res = torch.load(os.path.join(experiment_dir, v, "results.pt"), map_location='cpu')
-# 			res_list = [v]
-# 			print("file exists")
-# 			for m in METRICS:
-# 				res_list.append( res[m])
-
-
-
-# 			result_pd.loc[len(result_pd)] = res_list
-
-
-# 		except:
-# 			pass
-
-
-# 	if make_csv:
-# 		result_pd.to_csv("resultCSV/{}.csv".format(EXPERIMENT))
-
-# if __name__ == "__main__":
-# 	create_results_pd(make_csv=True)
-    
-import torch
-import random
-from matplotlib.path import Path
-import numpy as np
-import torch.nn as nn
 
 
 
@@ -375,11 +348,6 @@ def crashIntoWall( traj, walls):
             wall_crashes.append(1* polygon.contains_points(t).any())
     return wall_crashes
 
-import math
-import torch
-from torch.optim.optimizer import Optimizer, required
-
-
 class RAdam(Optimizer):
 
     def __init__(self, params, lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0, degenerated_to_sgd=True):
@@ -625,26 +593,6 @@ class AdamW(Optimizer):
                 p.data.copy_(p_data_fp32)
 
         return loss
-import os
-import time
-import torch
-import numpy as np
-import inspect
-from contextlib import contextmanager
-import subprocess
-import torch.nn as nn
-import itertools
-import importlib
-from attrdict import AttrDict
-from argparse import Namespace
-import os.path
-from shapely.geometry import Point
-from shapely.geometry.polygon import Polygon
-import numpy as np
-import json
-import random
-import os
-
 
 
 def normalize(v):

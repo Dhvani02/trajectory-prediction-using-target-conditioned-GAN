@@ -5,10 +5,9 @@ import numpy as np
 from omegaconf import DictConfig
 import torch.nn as nn
 from utils.losses import l2_loss, GANLoss, cal_ade, cal_fde, crashIntoWall
-from .get_model import get_model
+from model_main import get_model
 import torch
-# from data import TrajectoryDataset, seq_collate
-from dataset_load_py import TrajectoryDataset, seq_collate
+from data.collect_data import TrajectoryDataset, seq_collate
 from torch.utils.data import DataLoader
 from utils.radam import RAdam
 from utils.utils import re_im
@@ -59,29 +58,12 @@ class TrajPredictor(pl.LightningModule):
 			self.batch_size = self.hparams.batch_size
 
 	"""########## DATE PREPARATION ##########"""
-	def setupData(self, data_dict):
-		# called only on 1 GPU
-# 		train_cfg = self.hparams["train_data_loader"]
-# 		test_cfg = self.hparams["test_data_loader"]
-
-# 		os.environ["L5KIT_DATA_FOLDER"] = self.hparams["data_path"]
-# 		dm = LocalDataManager(None)
-		
-# 		rasterizer = build_rasterizer(self.hparams, dm)
-# 		train_zarr = ChunkedDataset(dm.require(train_cfg["key"])).open()
-# 		train_dataset = AgentDataset(self.hparams, train_zarr, rasterizer)
-
-# 		test_zarr = ChunkedDataset(dm.require(test_cfg["key"])).open()
-# 		test_dataset = AgentDataset(self.hparams, test_zarr, rasterizer)		
-
+	def setupData(self, data_dict):	
 		self.train_dset = data_dict['train']#TrajectoryDataset(test_zarr, phase = "train", **self.hparams)
 		self.val_dset = data_dict['test'] #TrajectoryDataset(data, mode = "val", **self.hparams)
 
 
-
 	def train_dataloader(self):
-		# REQUIRED
-
 		return DataLoader(
 			self.train_dset,
 			batch_size=self.batch_size,
@@ -92,7 +74,6 @@ class TrajPredictor(pl.LightningModule):
 
 
 	def val_dataloader(self):
-		# OPTIONAL
 		return DataLoader(
             self.val_dset,
             batch_size=self.hparams.batch_size,
@@ -102,8 +83,6 @@ class TrajPredictor(pl.LightningModule):
         )
 
 	def setupTestData(self):
-
-
 		self.test_dset = TrajectoryDataset(mode="test",  scene_batching = True, **self.hparams)
 
 	def test_dataloader(self):
@@ -232,10 +211,7 @@ class TrajPredictor(pl.LightningModule):
 
 		tqdm_dict["ADE_pixel_train"] = torch.mean(torch.stack(ade_sum_pixel))
 		tqdm_dict["FDE_pixel_train"] = torch.mean(torch.stack(fde_sum_pixel))
-		# count trajectories crashing into the 'wall'
-# 		if any(batch["occupancy"]):
-# 			wall_crashes = crashIntoWall(generator_out["out_xy"].detach().cpu(), batch["occupancy"])
-# 		else:
+
 		wall_crashes = [0]
 		tqdm_dict["feasibility_train"] = torch.tensor(1 - np.mean(wall_crashes))
 		l2 = l2.view(self.hparams.best_k, -1)

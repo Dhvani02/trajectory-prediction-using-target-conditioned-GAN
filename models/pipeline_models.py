@@ -9,9 +9,9 @@ import torch
 import torch.nn as nn
 import traceback
 
-# from model_modules_py import make_mlp,  \
-#      RoutingModule, MotionEncoder, AttentionGlobal,\
-#      GoalGlobal, EncoderPrediction
+from models import make_mlp,  \
+     RoutingModule, MotionEncoder, AttentionGlobal,\
+     GoalGlobal, EncoderPrediction
 
 # BaseModel
 class BaseModel(nn.Module):

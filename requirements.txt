@@ -8,7 +8,6 @@ astunparse==1.6.3
 async-timeout==3.0.1
 atari-py==0.2.6
 attrs==20.3.0
-beautifulsoup4==4.9.3
 blessings==1.7
 Box2D==2.3.10
 cachetools==4.2.0
@@ -29,13 +28,6 @@ filelock==3.0.12
 flatbuffers==1.12
 future==0.18.2
 gast==0.2.2
-google==3.0.0
-google-api-core==1.24.1
-google-auth==1.24.0
-google-auth-oauthlib==0.4.2
-google-pasta==0.2.0
-googleapis-common-protos==1.52.0
-googledrivedownloader==0.4
 gpustat==0.6.0
 greenlet==0.4.16
 grpcio==1.32.0

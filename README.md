@@ -40,9 +40,6 @@ Combine visual scene information with historical trajectory to give a probabilit
 This will create trajectories similar to ground truth, conditioned on the predicted target location. Thus, the input to the generator will also include the predicted goal location, with the help of this the problem of mode collapse (drawback of other papers using GAN) should dissapear.
 ### Discriminator
 This will have access to the ground truth trajectories, and it will take the input from the generator and try to predict if it is real or fake.
-### Ensemble
-The idea of an ensemble is to take the multiple models like ResNet, LSTM, GAN to predict multi-modal trajectories, then use the outputs from all the models to predict the final n trajectories. This can be done by using clustering algorithms like k-means or GMMs to cluster the output from every model, then compute the means in various clusters to give a final outcome.
-
 
 
 

@@ -1,15 +1,10 @@
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 import torch.nn as nn
-# from utils.losses import l2_loss, GANLoss
 import torch
-# from dataset_load_py import seq_collate
 from torch.utils.data import DataLoader
-# from utils.utils import re_im
 from pytorch_lightning import Trainer
-# from utils.visualize import visualize_probabilities
-# load optimizer
-# from utils.radam import RAdam
+
 
 
 def pretrain_func(generator, train_dset, val_dset, cfg, logger = None):
@@ -74,7 +69,6 @@ class Pretrain(pl.LightningModule):
 			self.batch_size = self.cfg['pretraining']['batch_size_scheduler']
 		else: self.batch_size = self.cfg['batch_size']
 	def train_dataloader(self):
-		# REQUIRED
 		return DataLoader(
 			self.train_dset,
 			batch_size=self.batch_size,
@@ -84,8 +78,6 @@ class Pretrain(pl.LightningModule):
 		)
 
 	def val_dataloader(self):
-		# OPTIONAL
-
 		return DataLoader(
 			self.val_dset,
 			batch_size=self.cfg['pretraining']['batch_size'],
@@ -147,9 +139,6 @@ class Pretrain(pl.LightningModule):
 
 		total_loss += loss_gce
 		tqdm_dict["GCE_pretrain"] = loss_gce
-
-
-		# include early stopping when loss below threshold
 
 
 		return {"loss": total_loss}

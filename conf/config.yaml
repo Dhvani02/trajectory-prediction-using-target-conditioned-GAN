@@ -115,11 +115,6 @@ g_steps : 1
 d_steps : 1
 
 
-
-
-
-
-# @package _global_
 dataset_name : 'lyft'
 obs_len : 11
 pred_len : 50
@@ -133,7 +128,7 @@ grid_size_local : 8
 load_semantic_map: False
 pretrain : 4
 
-# --- Lyft configs ---
+#  Lyft configs 
 format_version: 4,
 data_path: "/kaggle/input/lyft-motion-prediction-autonomous-vehicles"
 
